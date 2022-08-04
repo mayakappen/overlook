@@ -4,13 +4,24 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webpack Starter Kit</title>
+  <title>Cecil Hotel</title>
 </head>
 <body>
-  <img src="./images/turing-logo.png" alt="turing logo">
-  
+<heading>
+  Welcome to the Cecil Hotel!
+<input type="button" id="make-booking"></input>
+</heading>
+<section class ="view hidden" id="login-view"></section>
+<section class="view" id="dashboard-view">
+  <div id="current-bookings"></div>
+  <div id="previous-bookings">
+    <h4 id="total-spent"></h4>
+  </div>
+</section>
+<section class="view hidden" id="booking-view"></section> 
+<section class="view hidden" id="room-view"></section>
+</section>
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
-  <script src="bundle.js"></script>
-
+<script src="bundle.js"></script>
 </body>
 </html>
