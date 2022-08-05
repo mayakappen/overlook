@@ -7,4 +7,4 @@ class Booking {
     }
 }
 
-module.export = Booking
+module.exports = Booking 
