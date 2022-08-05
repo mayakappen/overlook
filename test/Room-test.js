@@ -29,8 +29,28 @@ describe('Customer', () => {
     it('should be a function', () => {
         expect(Room).to.be.a('function')
     })
-    it('should instantiate an instance of Room', () => {
-        expect(newRoom).to.be.an.instanceOf(Room)
+    it.skip('should instantiate an instance of Room', () => {
+        expect(newRoom).to.be.an.instanceOf(Room);
+    })
+    it.skip('should have a number', () => {
+        expect(newRoom.number).to.equal(15);
+    })
+    it.skip('should have a room type', () => {
+        expect(newRoom.roomType).to.equal("residential suite");
+    })
+    it.skip('should specify bidet status', () => {
+        expect(newRoom.bidet).to.equal(false);
+    })
+    it.skip('should specify bed size', () => {
+        expect(newRoom.bedSize).to.equal("full");
+    })
+    it.skip('should specify cost per night', () => {
+        expect(newRoom.costPerNight).to.equal(294.56);
+    })
+    it.skip('should keep track of bookings', () => {
+       let booking = newCustomer.book(newRoom)
+        expect(newBooking).to.equal(booking); 
+        expect(newBooking).to.equal(newRoom.bookings[0]);
     })
 
 })
