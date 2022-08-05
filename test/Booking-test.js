@@ -20,8 +20,14 @@ describe('Booking', function () {
         expect(newBooking.date).to.equal("2022/04/22")
     })
     it.skip("should have a roomNumber", function() {
-        expect(newUser.roomNumber).to.equal(15)
+        expect(newBooking.roomNumber).to.equal(15)
     })
- 
-    it.skip('')
-});
+    it.skip("should have a cost", function() {
+        newBooking.getCost(rooms)
+        expect(newBooking.cost).to.equal(294.56)
+    })
+    it.skip("should have a user", function() {
+        newBooking.getUser(users)
+        expect(newBooking.user).to.equal("Faustino Quitzon")
+    })
+})
