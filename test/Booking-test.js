@@ -1,10 +1,14 @@
 import chai from 'chai';
 import Booking from "../src/classes/Booking"
 const expect = chai.expect;
-let newBooking, user, room, booking
+let newBooking 
+let user
+let room
+let booking
 
 describe('Booking', () => {
     beforeEach(() => {
+        
         booking = {
             "id": "5fwrgu4i7k55hl6sz",
             "userID": 9,

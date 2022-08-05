@@ -26,7 +26,7 @@ describe('Customer', () => {
         newBooking = new Booking(booking)
         newRoom = new Room(room)
     })
-    it('should be a function', () => {
+    it.skip('should be a function', () => {
         expect(Room).to.be.a('function')
     })
     it.skip('should instantiate an instance of Room', () => {
