@@ -163,7 +163,8 @@ describe('Customer', () => {
             "date": "2022/04/22",
             "roomNumber": 15}])
         })
-    it.skip('should calculate total spent', () => {
+    it('should calculate total spent', () => {
+        newCustomer.getPrevBookings(bookings);
         newCustomer.getTotalSpent(rooms);
         expect(newCustomer.totalSpent).to.equal(294.56)
     })
