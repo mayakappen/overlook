@@ -1,16 +1,22 @@
 import chai from 'chai';
-import Booking from "../src/classes/Booking"
+import Booking from "../src/classes/Booking.js"
 const expect = chai.expect;
-let newBooking, user, room, booking
+let booking
+let newBooking 
+let user
+let room
+
 
 describe('Booking', () => {
     beforeEach(() => {
+        
         booking = {
             "id": "5fwrgu4i7k55hl6sz",
             "userID": 9,
             "date": "2022/04/22",
-            "roomNumber": 15,
+            "roomNumber": 15
         }
+        newBooking = new Booking(booking)
         user = {
             "id": 9,
             "name": "Faustino Quitzon"
@@ -23,10 +29,11 @@ describe('Booking', () => {
             "numBeds": 1,
             "costPerNight": 294.56
         }
-        newBooking = new Booking(booking)
+    
+
     });
-    it('should be a class', () => {
-        expect(Booking).to.be.a(Class)
+    it('should be a function', () => {
+        expect(Booking).to.be.a('function')
     });
 
     it.skip('should be an instantiate an instance of Booking', () => {

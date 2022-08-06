@@ -24,7 +24,7 @@ describe('Customer', () => {
         }
         newCustomer = new Customer(user)
 })
-    it('should be a function', () => {
+    it.skip('should be a function', () => {
         expect(Customer).to.be.a('function');
     })
     it.skip('should creat an instance of Customer', () => {
