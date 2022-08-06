@@ -37,16 +37,16 @@ describe('Customer', () => {
     it('should be a function', () => {
         expect(Customer).to.be.a('function');
     })
-    it.skip('should creat an instance of Customer', () => {
+    it('should creat an instance of Customer', () => {
         expect(newCustomer).to.be.an.instanceof(Customer);
     })
-    it.skip('should have an id', () => {
+    it('should have an id', () => {
         expect(newCustomer.id).to.equal(9);
     })
-    it.skip('should have a name', () => {
+    it('should have a name', () => {
         expect(newCustomer.name).to.equal('Faustino Quitzon');
     })
-    it.skip('should be able to book a room',() => {
+    it('should be able to book a room',() => {
         newCustomer.book(room, 1);
         expect(newCustomer.bookings).to.deep.equal([{"id": "5fwrgu4i7k55hl6sz",
             "userID": 9,
