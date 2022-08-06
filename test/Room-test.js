@@ -1,5 +1,6 @@
 import chai from 'chai';
-import Booking from "../src/classes/Booking"
+import Booking from "../src/classes/Booking.js"
+import Room from "../src/classes/Room.js"
 const expect = chai.expect;
 let user, newCustomer, booking, newBooking, room, newRoom
 describe('Customer', () => {
@@ -26,7 +27,7 @@ describe('Customer', () => {
         newBooking = new Booking(booking)
         newRoom = new Room(room)
     })
-    it.skip('should be a function', () => {
+    it('should be a function', () => {
         expect(Room).to.be.a('function')
     })
     it.skip('should instantiate an instance of Room', () => {
