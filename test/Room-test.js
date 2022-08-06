@@ -2,8 +2,13 @@ import chai from 'chai';
 import Booking from "../src/classes/Booking.js"
 import Room from "../src/classes/Room.js"
 const expect = chai.expect;
-let user, newCustomer, booking, newBooking, room, newRoom
-describe('Customer', () => {
+let booking 
+let room
+let user
+let newCustomer
+let newBooking
+let newRoom
+describe('Room', () => {
     beforeEach(() => {
         booking = {
             "id": "5fwrgu4i7k55hl6sz",
@@ -23,29 +28,28 @@ describe('Customer', () => {
             "id": 9,
             "name": "Faustino Quitzon"
         }
-        newCustomer = new Customer(user)
         newBooking = new Booking(booking)
         newRoom = new Room(room)
     })
     it('should be a function', () => {
         expect(Room).to.be.a('function')
     })
-    it.skip('should instantiate an instance of Room', () => {
+    it('should instantiate an instance of Room', () => {
         expect(newRoom).to.be.an.instanceOf(Room);
     })
-    it.skip('should have a number', () => {
+    it('should have a number', () => {
         expect(newRoom.number).to.equal(15);
     })
-    it.skip('should have a room type', () => {
+    it('should have a room type', () => {
         expect(newRoom.roomType).to.equal("residential suite");
     })
-    it.skip('should specify bidet status', () => {
+    it('should specify bidet status', () => {
         expect(newRoom.bidet).to.equal(false);
     })
-    it.skip('should specify bed size', () => {
+    it('should specify bed size', () => {
         expect(newRoom.bedSize).to.equal("full");
     })
-    it.skip('should specify cost per night', () => {
+    it('should specify cost per night', () => {
         expect(newRoom.costPerNight).to.equal(294.56);
     })
     it.skip('should keep track of bookings', () => {
