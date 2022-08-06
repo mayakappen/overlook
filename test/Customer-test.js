@@ -1,7 +1,15 @@
 import chai from 'chai';
 import Booking from "../src/classes/Booking"
+import Customer from "../src/classes/Customer"
+import Room from "../src/classes/Room"
 const expect = chai.expect;
-let newCustomer, booking, room
+let booking;
+let room;
+let user;
+let newBooking;
+let newRoom;
+let newCustomer;
+
 describe('Customer', () => {
     beforeEach(() => {
         booking = {
@@ -22,21 +30,23 @@ describe('Customer', () => {
             "id": 9,
             "name": "Faustino Quitzon"
         }
+        newBooking = new Booking(booking)
+        newRoom = new Room(room)
         newCustomer = new Customer(user)
 })
-    it.skip('should be a function', () => {
+    it('should be a function', () => {
         expect(Customer).to.be.a('function');
     })
-    it.skip('should creat an instance of Customer', () => {
+    it('should creat an instance of Customer', () => {
         expect(newCustomer).to.be.an.instanceof(Customer);
     })
-    it.skip('should have an id', () => {
+    it('should have an id', () => {
         expect(newCustomer.id).to.equal(9);
     })
-    it.skip('should have a name', () => {
+    it('should have a name', () => {
         expect(newCustomer.name).to.equal('Faustino Quitzon');
     })
-    it.skip('should be able to book a room',() => {
+    it('should be able to book a room',() => {
         newCustomer.book(room, 1);
         expect(newCustomer.bookings).to.deep.equal([{"id": "5fwrgu4i7k55hl6sz",
             "userID": 9,
