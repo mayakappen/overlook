@@ -1,7 +1,15 @@
 import chai from 'chai';
 import Booking from "../src/classes/Booking"
+import Customer from "../src/classes/Customer"
+import Room from "../src/classes/Room"
 const expect = chai.expect;
-let newCustomer, booking, room
+let booking;
+let room;
+let user;
+let newBooking;
+let newRoom;
+let newCustomer;
+
 describe('Customer', () => {
     beforeEach(() => {
         booking = {
@@ -22,9 +30,11 @@ describe('Customer', () => {
             "id": 9,
             "name": "Faustino Quitzon"
         }
+        newBooking = new Booking(booking)
+        newRoom = new Room(room)
         newCustomer = new Customer(user)
 })
-    it.skip('should be a function', () => {
+    it('should be a function', () => {
         expect(Customer).to.be.a('function');
     })
     it.skip('should creat an instance of Customer', () => {
