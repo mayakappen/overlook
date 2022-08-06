@@ -18,6 +18,17 @@ class Customer {
        this.bookings.push(newRoom)
        this.totalSpent += room.costPerNight
     }
+    getPrevBookings(bookings){
+    let prevBookings = bookings.filter((booking) => {
+    booking.userID === this.id
+    prevBookings.forEach(booking => this.bookings.push(booking))
+    })}
+    getTotalSpent(rooms) {
+    let total = this.bookings.reduce((acc, currBooking) => {
+        acc[rooms.filter((room) => room.number === currBooking.roomnumber)].costPerNight += this.totalSpent
+        return acc
+    }, 0)
+    }
 }
 
 
