@@ -8,8 +8,14 @@ class Customer {
     this.totalSpent = 0
     }
     book(room) {
-       let booking = new Booking(room)
-       this.bookings.push(booking)
+    const newRoom = new Room(room)
+    const date = new Date()
+    const  dateDay = date.getUTCDate()
+    const  dateMonth = date.getUTCMonth()
+    const dateYear = date.getUTCFullYear()
+    const bookingDate = dateYear + "/" + dateMonth + "/" + dateDay
+     newRoom.date = bookingDate
+       this.bookings.push(newRoom)
        this.totalSpent += room.costPerNight
     }
 }
