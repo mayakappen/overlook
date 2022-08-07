@@ -5,6 +5,14 @@ body {
     grid-auto-rows: minmax(150px, auto);
     grid-gap: 1em;
 }
+
+header {
+  padding: 15px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
 #dashboard-view {
   background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(252, 70, 107, 1) 100%);
     display: grid;
@@ -12,8 +20,18 @@ body {
     grid-auto-rows: minmax(150px, auto);
     grid-gap: 1em;
 }
+
 .booking {
-  display: flex,
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: baseline;
+
+}
+
+.bookingPic {
+  order: -1;
+  align-self: center
 }
 .bookingPic:hover {
   height: 30vh;
