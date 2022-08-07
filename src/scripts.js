@@ -5,13 +5,13 @@
 import './css/styles.css';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/beautifulBuilding.webp'
-import './images/cecil.jpeg'
-import './images/juniorSuite.jpeg'
-import './images/residentialSuite.jpeg'
-import './images/singleRoom.jpeg'
-import './images/stayHere.jpeg'
-import './images/suite.jpeg'
+// import './images/beautifulBuilding.webp'
+// import './images/cecil.jpeg'
+// import './images/juniorSuite.jpeg'
+// import './images/residentialSuite.jpeg'
+// import './images/singleRoom.jpeg'
+// import './images/stayHere.jpeg'
+// import './images/suite.jpeg'
 
 import Booking from './classes/Booking.js'
 import Customer from './classes/Customer.js';
@@ -43,3 +43,9 @@ function getPromises() {
 }
 
 window.addEventListener('load', getPromises);
+
+let dashboardView = document.getElementById('dashboard-view')
+let bookingCards = document.querySelectorAll('.booking');
+let currentBooking = document.getElementById('current-booking')
+let formerBookings = document.querySelectorAll('.formerBooking')
+
