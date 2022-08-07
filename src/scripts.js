@@ -51,9 +51,11 @@ let currentBooking = document.getElementById('current-booking')
 let formerBookings = document.querySelectorAll('.formerBooking')
 
 function getBookingData(customer) {
-    let bookingRoom = rooms.find(room => customer.bookings[0].roomNumber === room.number)
-    console.log(bookingRoom)
-    currentBooking.innerHTML += `<h4 class="title" id="current-booking-title"></h4>
-    <p class="text" id="current-booking-text"></p>
-    <img src="" class ="bookingPic" id="current-booking-pic" alt="current-booking-image"></img>`
+    let pic
+    customer.bookings.forEach( booking => {
+    pic = roomImages[Math.floor(Math.random() * roomImages.length)]
+    console.log(pic)
+    currentBooking.innerHTML += `<h4 class="title" id="current-booking-title">Room ${booking.roomNumber} on ${booking.date}</h4>
+    <p class="text" id="current-booking-text">${booking.roomBooked.roomType}</p>
+    <img src=${pic} class ="bookingPic" alt="current-booking-image" width=100 height=auto>`})
 }
