@@ -5,8 +5,14 @@
 import './css/styles.css';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
-
+// import './images/beautifulBuilding.webp'
+// import './images/cecil.jpeg'
+// import './images/juniorSuite.jpeg'
+// import './images/residentialSuite.jpeg'
+// import './images/singleRoom.jpeg'
+// import './images/stayHere.jpeg'
+// import './images/suite.jpeg'
+import roomImages from './images/imagesCollection.js'
 import Booking from './classes/Booking.js'
 import Customer from './classes/Customer.js';
 import Room from './classes/Room.js'
@@ -32,8 +38,24 @@ function getPromises() {
         customer.getPrevBookings(bookings)
         rooms = data[2].rooms;
         customer.getTotalSpent(rooms);
-        console.log('customer: ', customer);
+        getBookingData(customer)
+        console.log('customer: ', customer)
     })
 }
 
 window.addEventListener('load', getPromises);
+
+let dashboardView = document.getElementById('dashboard-view')
+let bookingCards = document.querySelectorAll('.booking');
+let currentBooking = document.getElementById('current-booking')
+let formerBookings = document.querySelectorAll('.formerBooking')
+
+function getBookingData(customer) {
+    let pic
+    customer.bookings.forEach( booking => {
+    pic = roomImages[Math.floor(Math.random() * roomImages.length)]
+    console.log(pic)
+    currentBooking.innerHTML += `<h4 class="title" id="current-booking-title">Room ${booking.roomNumber} on ${booking.date}</h4>
+    <p class="text" id="current-booking-text">${booking.roomBooked.roomType}</p>
+    <img src=${pic} class ="bookingPic" alt="current-booking-image" width=100 height=auto>`})
+}
