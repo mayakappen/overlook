@@ -7,5 +7,4 @@ const roomImages = [
     "https://user-images.githubusercontent.com/102932448/183271215-74a75947-b70f-447c-b572-234dcfd368b2.jpeg",
     "https://user-images.githubusercontent.com/102932448/183271220-1461a35f-6fe7-419f-a4b6-556591363b24.jpeg",
     "https://user-images.githubusercontent.com/102932448/183271233-50101a92-bf18-4e7f-8a2e-4016661c112c.jpeg"
-
 ]

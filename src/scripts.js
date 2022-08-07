@@ -12,7 +12,7 @@ import './css/styles.css';
 // import './images/singleRoom.jpeg'
 // import './images/stayHere.jpeg'
 // import './images/suite.jpeg'
-
+import roomImages from './images/imagesCollection.js'
 import Booking from './classes/Booking.js'
 import Customer from './classes/Customer.js';
 import Room from './classes/Room.js'
@@ -38,7 +38,8 @@ function getPromises() {
         customer.getPrevBookings(bookings)
         rooms = data[2].rooms;
         customer.getTotalSpent(rooms);
-        console.log('customer: ', customer);
+        getBookingData(customer)
+        console.log('customer: ', customer)
     })
 }
 
@@ -49,3 +50,10 @@ let bookingCards = document.querySelectorAll('.booking');
 let currentBooking = document.getElementById('current-booking')
 let formerBookings = document.querySelectorAll('.formerBooking')
 
+function getBookingData(customer) {
+    let bookingRoom = rooms.find(room => customer.bookings[0].roomNumber === room.number)
+    console.log(bookingRoom)
+    currentBooking.innerHTML += `<h4 class="title" id="current-booking-title"></h4>
+    <p class="text" id="current-booking-text"></p>
+    <img src="" class ="bookingPic" id="current-booking-pic" alt="current-booking-image"></img>`
+}

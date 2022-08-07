@@ -27,6 +27,7 @@ class Customer {
     let roomz
     this.bookings.forEach((booking) => {
     roomz = rooms.find((room) => room.number === booking.roomNumber)
+    booking.roomBooked = roomz 
     this.totalSpent += roomz.costPerNight
     })
     return this.totalSpent
