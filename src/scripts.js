@@ -48,14 +48,20 @@ window.addEventListener('load', getPromises);
 let dashboardView = document.getElementById('dashboard-view')
 let bookingCards = document.querySelectorAll('.booking');
 let currentBooking = document.getElementById('current-booking')
+let totalSpent = document.getElementById('totalSpent')
 let formerBookings = document.querySelectorAll('.formerBooking')
+let sidebar = document.querySelector('.sidebar')
 
 function getBookingData(customer) {
     let pic
+    totalSpent.innerHTML = `Total Spent: $${customer.totalSpent}`
     customer.bookings.forEach( booking => {
     pic = roomImages[Math.floor(Math.random() * roomImages.length)]
     console.log(pic)
-    currentBooking.innerHTML += `<h4 class="title" id="current-booking-title">Room ${booking.roomNumber} on ${booking.date}</h4>
-    <p class="text" id="current-booking-text">${booking.roomBooked.roomType}</p>
-    <img src=${pic} class ="bookingPic" alt="current-booking-image" width=100 height=auto>`})
+    sidebar.innerHTML += `
+    <h4 class="title" id="former-booking-title">Room ${booking.roomNumber} on ${booking.date}</h4>
+    <p class="text" id="former-booking-room">${booking.roomBooked.roomType}</p>
+    <p class="text" id="former-booking-cost">$${booking.roomBooked.costPerNight}/night</p>
+    <img src=${pic} class ="bookingPic" alt="former-booking-image" width=100 height=auto>
+ `})
 }

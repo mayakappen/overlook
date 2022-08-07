@@ -7,31 +7,23 @@
   <title>Cecil Hotel</title>
 </head>
 <body>
-<img src="https://user-images.githubusercontent.com/102932448/183271067-8eb56728-5cbc-4337-9349-7dab9cab6841.jpeg" id="header-image" width="100" height="auto">
 <heading>
   Welcome to the Cecil Hotel!
-<input type="button" id="make-booking"></input>
 </heading>
-<section class ="view hidden" id="login-view"></section>
-<section class="view" id="dashboard-view">
-  <section id="current-bookings">
-  <article class ="booking" id="current-booking">
-    <h4 class="title" id="current-booking-title"></h4>
-    <p class="text" id="current-booking-text"></p>
-    <img src="" class ="bookingPic" id="current-booking-pic" alt="current-booking-image">
-    </article>
-  </section>
-  <aside id="previous-bookings">
-    <h4 class ="title" id="total-spent"></h4>
-    <article class="formerBooking" id="former-booking">
-      <h4 class="title" id="former-booking-title"></h4>
-      <p class="text" id="former-booking-text"></p>
-      <img src="" class="bookingPic" id="former-booking-pic" alt="former-booking-image">
-    </article>
+<section class ="view-hidden" id="login-view"></section>
+<main class="view" id="dashboard-view">
+    <section class=calendar>
+      <label for="dates">Select Your Date</label>
+      <input type="date" id="dates" value="">
+      <button id="make-booking">Book!</button>
+      
+    </section>
+  <aside class="sidebar" id="formerBookings">
+    <h4 class="title" id="totalSpent"></h4>
   </aside>
-</section>
-<section class="view hidden" id="booking-view"></section> 
-<section class="view hidden" id="room-view"></section>
+</main>
+<section class="view-hidden" id="booking-view"></section> 
+<section class="view-hidden" id="room-view"></section>
 </section>
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
 <script src="bundle.js"></script>
