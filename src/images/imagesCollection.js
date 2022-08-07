@@ -17,8 +17,7 @@ const roomImages = [
     "https://user-images.githubusercontent.com/102932448/183277022-b07096cd-cae1-4e59-b5be-f938402131af.jpeg",
     "https://user-images.githubusercontent.com/102932448/183277083-4a91dc7e-51fe-46ea-87cc-7d70ef486760.jpeg",
     "https://user-images.githubusercontent.com/102932448/183277118-2046d21d-a724-47fd-86c3-216091600c63.png"
-
-
 ]
+
 
 module.exports = roomImages
