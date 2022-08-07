@@ -7,13 +7,15 @@ import './css/styles.css';
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
 
-import Booking from '../src/classes/Booking.js'
+import Booking from './classes/Booking.js'
+import Customer from './classes/Customer.js';
+import Room from './classes/Room.js'
 
-let fetchData = (data) => {
+let fetchData = (data => {
     return fetch(`http://localhost:3001/api/v1/${data}`)
         .then(rsp => rsp.json())
         .catch(error => console.log(error))
-};
+});
 
 let customers;
 let bookings;
@@ -25,12 +27,12 @@ let room;
 function getPromises() {
     Promise.all([fetchData('customers'), fetchData('bookings'), fetchData('rooms')]).then(data => {
         customers = data[0].customers;
-        console.log('customers: ', customers);
+        let customer = new Customer(customers[Math.floor(Math.random() * customers.length)]);
         bookings = data[1].bookings;
-        console.log('bookings: ', bookings);
+        customer.getPrevBookings(bookings)
         rooms = data[2].rooms;
-        console.log('rooms: ', rooms);
-        booking = new Booking(bookings[0]);
+        customer.getTotalSpent(rooms);
+        console.log('customer: ', customer);
     })
 }
 
