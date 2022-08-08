@@ -16,6 +16,7 @@ import roomImages from './images/imagesCollection.js'
 import Booking from './classes/Booking.js'
 import Customer from './classes/Customer.js';
 import Room from './classes/Room.js'
+import { HotModuleReplacementPlugin } from 'webpack';
 
 let fetchData = (data => {
     return fetch(`http://localhost:3001/api/v1/${data}`)
@@ -51,6 +52,7 @@ let currentBooking = document.getElementById('current-booking')
 let totalSpent = document.getElementById('totalSpent')
 let formerBookings = document.querySelectorAll('.formerBooking')
 let sidebar = document.querySelector('.sidebar')
+let calendar = document.querySelector('.calendar')
 
 function getBookingData(customer) {
     let pic
@@ -64,4 +66,24 @@ function getBookingData(customer) {
     <p class="text" id="former-booking-cost">$${booking.roomBooked.costPerNight}/night</p>
     <img src=${pic} class ="bookingPic" alt="former-booking-image" width=100 height=auto>
  `})
+}
+
+function checkDates() {
+    let date = calendar.value.split('-').join('/');
+    let availablities = []
+    if (date.value === '') {
+        homepage.innerHTML += `<h4>Select a Date</h4>`
+    }
+    let bookedRooms = bookings.filter((booking) => {
+        if (booking.date.includes(date)) {
+            return booking
+        }
+    }).map(booking => booking.roomNumber)
+    console.log("booked rooms: ", bookedRooms)
+    rooms.filter((room) => {
+        if (!bookedRooms.includes(room.number)) {
+            availablities.push(room)
+        }
+        console.log("available rooms", availablities)
+    })
 }

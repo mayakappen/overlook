@@ -13,7 +13,7 @@ class Customer {
     const  dateDay = date.getUTCDate()
     const  dateMonth = date.getUTCMonth()
     const dateYear = date.getUTCFullYear()
-    const bookingDate = dateYear + "/" + dateMonth + "/" + dateDay
+    const bookingDate = dateYear + "/" + dateMonth + "/" + dateDajy
      newRoom.date = bookingDate
        this.bookings.push(newRoom)
        this.totalSpent += room.costPerNight
