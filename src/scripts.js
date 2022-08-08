@@ -44,7 +44,7 @@ function getPromises() {
 }
 
 
-
+let calendarView = document.querySelector('.calendar')
 let dashboardView = document.getElementById('dashboard-view')
 let bookingCards = document.querySelectorAll('.booking');
 let currentBooking = document.getElementById('current-booking')
@@ -53,6 +53,7 @@ let formerBookings = document.querySelectorAll('.formerBooking')
 let sidebar = document.querySelector('.sidebar')
 let calendar = document.querySelector('.date')
 let calendarButton = document.getElementById('checkAvailabilities')
+const body = document.body
 
 window.addEventListener('load', getPromises);
 calendarButton.addEventListener('click', checkDates)
@@ -88,4 +89,23 @@ function checkDates() {
         }
         console.log("available rooms", availablities)
     })
+    let pic
+    availablities.forEach((availability) => {
+    pic = roomImages[Math.floor(Math.random() * roomImages.length)]
+    let potentialBooking = document.createElement('div')
+    potentialBooking.classList.add('potential-booking')
+    potentialBooking.setAttribute('id', availability.number.toString())
+    console.log(potentialBooking)
+    potentialBooking.innerHTML = `
+    <h4 class="title" id="potentialBookingTitle">Room ${availability.number} on ${date}</h4>
+    <p class="text" id="potentialBookingRoom">${availability.roomType}</p>
+    <p class="text" id="potentialBookingBeds> ${availability.numBeds} ${availability.bedSize} beds</p>
+    <p class="text" id="potentialBooking-cost">$${availability.costPerNight}/night</p>
+    <img src=${pic} class ="bookingPic" alt="potential-booking-image" width=100 height=auto>
+ `
+ calendarView.append(potentialBooking)
+})
 }
+
+
+
