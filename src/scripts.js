@@ -43,21 +43,26 @@ function getPromises() {
     })
 }
 
-window.addEventListener('load', getPromises);
 
+let calendarView = document.querySelector('.calendar')
 let dashboardView = document.getElementById('dashboard-view')
 let bookingCards = document.querySelectorAll('.booking');
 let currentBooking = document.getElementById('current-booking')
 let totalSpent = document.getElementById('totalSpent')
 let formerBookings = document.querySelectorAll('.formerBooking')
 let sidebar = document.querySelector('.sidebar')
+let calendar = document.querySelector('.date')
+let calendarButton = document.getElementById('checkAvailabilities')
+const body = document.body
+
+window.addEventListener('load', getPromises);
+calendarButton.addEventListener('click', checkDates)
 
 function getBookingData(customer) {
     let pic
     totalSpent.innerHTML = `Total Spent: $${customer.totalSpent}`
     customer.bookings.forEach( booking => {
     pic = roomImages[Math.floor(Math.random() * roomImages.length)]
-    console.log(pic)
     sidebar.innerHTML += `
     <h4 class="title" id="former-booking-title">Room ${booking.roomNumber} on ${booking.date}</h4>
     <p class="text" id="former-booking-room">${booking.roomBooked.roomType}</p>
@@ -65,3 +70,42 @@ function getBookingData(customer) {
     <img src=${pic} class ="bookingPic" alt="former-booking-image" width=100 height=auto>
  `})
 }
+
+function checkDates() {
+    let date = calendar.value.split('-').join('/');
+    let availablities = []
+    if (date.value === '') {
+        homepage.innerHTML += `<h4>Select a Date</h4>`
+    }
+    let bookedRooms = bookings.filter((booking) => {
+        if (booking.date.includes(date)) {
+            return booking
+        }
+    }).map(booking => booking.roomNumber)
+    console.log("booked rooms: ", bookedRooms)
+    rooms.filter((room) => {
+        if (!bookedRooms.includes(room.number)) {
+            availablities.push(room)
+        }
+        console.log("available rooms", availablities)
+    })
+    let pic
+    availablities.forEach((availability) => {
+    pic = roomImages[Math.floor(Math.random() * roomImages.length)]
+    let potentialBooking = document.createElement('div')
+    potentialBooking.classList.add('potential-booking')
+    potentialBooking.setAttribute('id', availability.number.toString())
+    console.log(potentialBooking)
+    potentialBooking.innerHTML = `
+    <h4 class="title" id="potentialBookingTitle">Room ${availability.number} on ${date}</h4>
+    <p class="text" id="potentialBookingRoom">${availability.roomType}</p>
+    <p class="text" id="potentialBookingBeds> ${availability.numBeds} ${availability.bedSize} beds</p>
+    <p class="text" id="potentialBooking-cost">$${availability.costPerNight}/night</p>
+    <img src=${pic} class ="bookingPic" alt="potential-booking-image" width=100 height=auto>
+ `
+ calendarView.append(potentialBooking)
+})
+}
+
+
+
