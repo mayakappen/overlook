@@ -3,6 +3,7 @@ const Room = require("./Room")
 class Customer {
     constructor(customer) {
     this.id = customer.id
+    console.log('id: ', customer.id)
     this.name = customer.name
     this.bookings = []
     this.totalSpent = 0
@@ -13,7 +14,7 @@ class Customer {
     const  dateDay = date.getUTCDate()
     const  dateMonth = date.getUTCMonth()
     const dateYear = date.getUTCFullYear()
-    const bookingDate = dateYear + "/" + dateMonth + "/" + dateDajy
+    const bookingDate = dateYear + "/" + dateMonth + "/" + dateDay
      newRoom.date = bookingDate
        this.bookings.push(newRoom)
        this.totalSpent += room.costPerNight
