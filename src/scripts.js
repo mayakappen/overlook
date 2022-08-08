@@ -16,7 +16,6 @@ import roomImages from './images/imagesCollection.js'
 import Booking from './classes/Booking.js'
 import Customer from './classes/Customer.js';
 import Room from './classes/Room.js'
-import { HotModuleReplacementPlugin } from 'webpack';
 
 let fetchData = (data => {
     return fetch(`http://localhost:3001/api/v1/${data}`)
@@ -44,7 +43,7 @@ function getPromises() {
     })
 }
 
-window.addEventListener('load', getPromises);
+
 
 let dashboardView = document.getElementById('dashboard-view')
 let bookingCards = document.querySelectorAll('.booking');
@@ -52,14 +51,17 @@ let currentBooking = document.getElementById('current-booking')
 let totalSpent = document.getElementById('totalSpent')
 let formerBookings = document.querySelectorAll('.formerBooking')
 let sidebar = document.querySelector('.sidebar')
-let calendar = document.querySelector('.calendar')
+let calendar = document.querySelector('.date')
+let calendarButton = document.getElementById('checkAvailabilities')
+
+window.addEventListener('load', getPromises);
+calendarButton.addEventListener('click', checkDates)
 
 function getBookingData(customer) {
     let pic
     totalSpent.innerHTML = `Total Spent: $${customer.totalSpent}`
     customer.bookings.forEach( booking => {
     pic = roomImages[Math.floor(Math.random() * roomImages.length)]
-    console.log(pic)
     sidebar.innerHTML += `
     <h4 class="title" id="former-booking-title">Room ${booking.roomNumber} on ${booking.date}</h4>
     <p class="text" id="former-booking-room">${booking.roomBooked.roomType}</p>
