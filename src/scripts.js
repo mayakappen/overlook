@@ -44,15 +44,16 @@ function getPromises() {
 }
 
 
-let calendarView = document.querySelector('.calendar')
-let dashboardView = document.getElementById('dashboard-view')
+const calendarView = document.querySelector('.calendar')
+const dashboardView = document.getElementById('dashboard-view')
 let bookingCards = document.querySelectorAll('.booking');
-let currentBooking = document.getElementById('current-booking')
-let totalSpent = document.getElementById('totalSpent')
-let formerBookings = document.querySelectorAll('.formerBooking')
-let sidebar = document.querySelector('.sidebar')
-let calendar = document.querySelector('.date')
-let calendarButton = document.getElementById('checkAvailabilities')
+const currentBooking = document.getElementById('current-booking')
+const totalSpent = document.getElementById('totalSpent')
+const formerBookings = document.querySelectorAll('.formerBooking')
+const sidebar = document.querySelector('.sidebar')
+const calendar = document.querySelector('.date')
+const roomTypes = document.getElementById('roomTypes')
+const calendarButton = document.getElementById('checkAvailabilities')
 const body = document.body
 
 window.addEventListener('load', getPromises);
@@ -73,7 +74,7 @@ function getBookingData(customer) {
 
 function checkDates() {
     let date = calendar.value.split('-').join('/');
-    let availablities = []
+    let availabilities = []
     if (date.value === '') {
         homepage.innerHTML += `<h4>Select a Date</h4>`
     }
@@ -85,12 +86,22 @@ function checkDates() {
     console.log("booked rooms: ", bookedRooms)
     rooms.filter((room) => {
         if (!bookedRooms.includes(room.number)) {
-            availablities.push(room)
+            availabilities.push(room)
         }
-        console.log("available rooms", availablities)
+        console.log("available rooms", availabilities)
     })
+    let roomFilter =  availabilities.filter((room) => {
+        if (roomTypes.value === 'any') {
+            return room
+        }
+        else if (roomTypes.value === room.roomType) {
+            return room
+        }
+    })
+    console.log(roomFilter)
+    
     let pic
-    availablities.forEach((availability) => {
+    roomFilter.forEach((availability) => {
     pic = roomImages[Math.floor(Math.random() * roomImages.length)]
     let potentialBooking = document.createElement('div')
     potentialBooking.classList.add('potential-booking')
