@@ -5,13 +5,6 @@
 import './css/styles.css';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
-// import './images/beautifulBuilding.webp'
-// import './images/cecil.jpeg'
-// import './images/juniorSuite.jpeg'
-// import './images/residentialSuite.jpeg'
-// import './images/singleRoom.jpeg'
-// import './images/stayHere.jpeg'
-// import './images/suite.jpeg'
 import roomImages from './images/imagesCollection.js'
 import Booking from './classes/Booking.js'
 import Customer from './classes/Customer.js';
