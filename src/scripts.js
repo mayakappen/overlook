@@ -22,11 +22,12 @@ let rooms;
 let customer;
 let booking;
 let room;
+let roomFilter;
 
 function getPromises() {
     Promise.all([fetchData('customers'), fetchData('bookings'), fetchData('rooms')]).then(data => {
         customers = data[0].customers;
-        let customer = new Customer(customers[Math.floor(Math.random() * customers.length)]);
+        customer = new Customer(customers[Math.floor(Math.random() * customers.length)]);
         bookings = data[1].bookings;
         customer.getPrevBookings(bookings)
         rooms = data[2].rooms;
@@ -47,10 +48,14 @@ const sidebar = document.querySelector('.sidebar')
 const calendar = document.querySelector('.date')
 const roomTypes = document.getElementById('roomTypes')
 const calendarButton = document.getElementById('checkAvailabilities')
+let bookButtons = document.querySelectorAll('.book-button')
+const potentialBookings = document.querySelector('.potential-bookings')
 const body = document.body
 
 window.addEventListener('load', getPromises);
 calendarButton.addEventListener('click', checkDates)
+potentialBookings.addEventListener('click', bookRoom)
+
 
 function getBookingData(customer) {
     let pic
@@ -83,7 +88,7 @@ function checkDates() {
         }
         console.log("available rooms", availabilities)
     })
-    let roomFilter =  availabilities.filter((room) => {
+    roomFilter =  availabilities.filter((room) => {
         if (roomTypes.value === 'any') {
             return room
         }
@@ -91,25 +96,50 @@ function checkDates() {
             return room
         }
     })
-    console.log(roomFilter)
-    
     let pic
     roomFilter.forEach((availability) => {
     pic = roomImages[Math.floor(Math.random() * roomImages.length)]
     let potentialBooking = document.createElement('div')
     potentialBooking.classList.add('potential-booking')
     potentialBooking.setAttribute('id', availability.number.toString())
-    console.log(potentialBooking)
-    potentialBooking.innerHTML = `
+    let bidetStatus
+    if (potentialBooking.bidet === false) {
+        bidetStatus = "no bidet"
+    } else {
+        bidetStatus = "has a bidet"
+    }
+    potentialBookings.innerHTML += `
     <h4 class="title" id="potentialBookingTitle">Room ${availability.number} on ${date}</h4>
     <p class="text" id="potentialBookingRoom">${availability.roomType}</p>
     <p class="text" id="potentialBookingBeds> ${availability.numBeds} ${availability.bedSize} beds</p>
     <p class="text" id="potentialBooking-cost">$${availability.costPerNight}/night</p>
+    <p class="text" id="potentialBooking-bidet">${bidetStatus}</p>
     <img src=${pic} class ="bookingPic" alt="potential-booking-image" width=100 height=auto>
+    <button class="book-button" id ="${availability.number}">Book!</button>
  `
- calendarView.append(potentialBooking)
+potentialBookings.append(potentialBooking)
 })
+
 }
+
+function bookRoom(event) {
+event.preventDefault()
+    if (event.target.classList.contains('book-button')) {
+        console.log(event.target.id)
+        postRoom(event.target.id)
+    }
+}
+
+function postRoom(id) {
+    fetch('http://localhost:3001/api/v1/bookings', {
+        method: 'POST',
+        headers: {'Content-type': 'application/json'},
+        body: JSON.stringify({userID: customer.id, date: calendar.value.split('-').join('/'), roomNumber: parseInt(id)})
+    })
+        .then(resp => resp.json())
+        .catch(error => console.log(error))
+}
+
 
 
 
