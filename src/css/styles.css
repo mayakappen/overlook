@@ -50,7 +50,7 @@ height: 80vh;
 width:  100vw;
 }
 
-#login-view {
+.login {
   display: flex;
   flex-direction: row;
   justify-content: space-around;

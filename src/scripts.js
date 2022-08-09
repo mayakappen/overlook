@@ -23,11 +23,10 @@ let customer;
 let booking;
 let room;
 let roomFilter;
+let id;
 
 function getPromises() {
-    Promise.all([fetchData('customers'), fetchData('bookings'), fetchData('rooms')]).then(data => {
-        customers = data[0].customers;
-        customer = new Customer(customers[Math.floor(Math.random() * customers.length)]);
+    Promise.all([fetchData('bookings'), fetchData('rooms')]).then(data => {
         bookings = data[1].bookings;
         customer.getPrevBookings(bookings)
         rooms = data[2].rooms;
@@ -56,7 +55,7 @@ function updatePromises() {
 
 
 const calendarView = document.querySelector('.calendar')
-const dashboardView = document.getElementById('dashboard-view')
+const dashboardView = document.querySelector('.dashboard')
 let bookingCards = document.querySelectorAll('.booking');
 const currentBooking = document.getElementById('current-booking')
 let totalSpent = document.getElementById('totalSpent')
@@ -69,11 +68,13 @@ let bookButtons = document.querySelectorAll('.book-button')
 let potentialBookings = document.querySelector('.potential-bookings')
 let currentBookings = document.querySelector('.currentBookings')
 let userField = document.getElementById('userName')
-let passwordField = document.getElementById('userPassword')
+let passwordField = document.querySelector('.password')
 const loginButton = document.getElementById('loginButton')
+let loginView = document.querySelector('.login')
 const body = document.body
 
-window.addEventListener('load', getPromises);
+// window.addEventListener('load', getPromises);
+loginButton.addEventListener('click', login)
 calendarButton.addEventListener('click', checkDates)
 potentialBookings.addEventListener('click', bookRoom)
 
@@ -193,6 +194,36 @@ function postRoom(id) {
         .then(resp => resp.json())
         .catch(error => console.log(error))
 }
+let myPromise
+function login(event) {
+    event.preventDefault()
+    let password = passwordField.value
+    console.log(password)
+    if (password === 'overlook2021') {
+    loginView.classList.add('hidden')
+    dashboardView.classList.remove('hidden')
+    let username = userField.value
+    console.log(username)
+    id = username.slice(-2)
+    console.log(id)
+    myPromise = new Promise((resolve, reject) => {
+            
+            resolve( setTimeout(
+                fetchData(`customers/${id}`).then(data => {
+   
+                    customer = new Customer(data)
+                    console.log(customer)
+                    return customer
+                }), 100000))
+            reject(err => alert(err))
+            
+    })
+
+}
+
+}
+
+
 
 
 
