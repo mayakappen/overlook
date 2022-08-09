@@ -27,11 +27,8 @@ let id;
 
 function getPromises() {
     Promise.all([fetchData('bookings'), fetchData('rooms')]).then(data => {
-        bookings = data[1].bookings;
-        customer.getPrevBookings(bookings)
-        rooms = data[2].rooms;
-        customer.getTotalSpent(rooms);
-        getBookingData(customer)
+        bookings = data[0].bookings;
+        rooms = data[1].rooms;
         console.log('customer: ', customer)
     })
 }
@@ -73,7 +70,7 @@ const loginButton = document.getElementById('loginButton')
 let loginView = document.querySelector('.login')
 const body = document.body
 
-// window.addEventListener('load', getPromises);
+window.addEventListener('load', getPromises);
 loginButton.addEventListener('click', login)
 calendarButton.addEventListener('click', checkDates)
 potentialBookings.addEventListener('click', bookRoom)
@@ -210,8 +207,10 @@ function login(event) {
             
             resolve( setTimeout(
                 fetchData(`customers/${id}`).then(data => {
-   
                     customer = new Customer(data)
+                    customer.getPrevBookings(bookings)
+                    customer.getTotalSpent(rooms)
+                    getBookingData(customer)
                     console.log(customer)
                     return customer
                 }), 100000))
