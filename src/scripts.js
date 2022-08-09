@@ -80,7 +80,7 @@ function getBookingData(customer) {
     currentBookings.innerHTML = ``
     const date = new Date()
     const dateDay = date.getUTCDate()
-    const dateMonth = date.getUTCMonth()
+    const dateMonth = date.getUTCMonth() + 1
     const dateYear = date.getUTCFullYear()
     const currentDate = dateYear + "-" + dateMonth + "-" + dateDay
     let pic
