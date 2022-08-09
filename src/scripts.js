@@ -68,6 +68,9 @@ const calendarButton = document.getElementById('checkAvailabilities')
 let bookButtons = document.querySelectorAll('.book-button')
 let potentialBookings = document.querySelector('.potential-bookings')
 let currentBookings = document.querySelector('.currentBookings')
+let userField = document.getElementById('userName')
+let passwordField = document.getElementById('userPassword')
+const loginButton = document.getElementById('loginButton')
 const body = document.body
 
 window.addEventListener('load', getPromises);
