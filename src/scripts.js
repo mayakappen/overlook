@@ -98,7 +98,7 @@ function getBookingData(customer) {
     console.log('booking date: ', bookingDate)
     if( bookingDay < today) {
     sidebar.innerHTML += `
-    <h4 class="title" id="formerBookingTitle">Room ${booking.roomNumber} on ${booking.date}</h4>
+    <h4 class="title" id="formerBookingTitle" tabindex = "0">Room ${booking.roomNumber} on ${booking.date}</h4>
     <p class="text" id="formerBookingRoom">${booking.roomBooked.roomType}</p>
     <p class="text" id="formerBookingCost">$${booking.roomBooked.costPerNight}/night</p>
     <img src=${booking.pic} class ="bookingPic" alt="formerBookingImage" width=100 height=auto>
@@ -106,7 +106,7 @@ function getBookingData(customer) {
 else if(today <= bookingDay) {
   
     currentBookings.innerHTML +=
-`    <h4 class="title" id="upcomingBookingTitle">Room ${booking.roomNumber} on ${booking.date}</h4>
+`    <h4 class="title" id="upcomingBookingTitle" tabindex = "0">Room ${booking.roomNumber} on ${booking.date}</h4>
     <p class="text" id="upcomingBookingRoom">${booking.roomBooked.roomType}</p>
     <p class="text" id="upcomingBookingCost">$${booking.roomBooked.costPerNight}/night</p>
     <img src=${booking.pic} class ="bookingPic" alt="upcomingBookingImage" width=100 height = auto >`
@@ -160,7 +160,7 @@ function checkDates() {
         bidetStatus = "has a bidet"
     }
     potentialBookings.innerHTML += `
-    <h4 class="title" id="potentialBookingTitle">Room ${availability.number} on ${date}</h4>
+    <h4 class="title" id="potentialBookingTitle" tabindex = "0">Room ${availability.number} on ${date}</h4>
     <p class="text" id="potentialBookingRoom">${availability.roomType}</p>
     <p class="text" id="potentialBookingBeds> ${availability.numBeds} ${availability.bedSize} beds</p>
     <p class="text" id="potentialBooking-cost">$${availability.costPerNight}/night</p>
