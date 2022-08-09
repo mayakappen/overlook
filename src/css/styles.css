@@ -41,7 +41,7 @@ height: 1vw;
 width: 2vw;
 }
 
-#dashboard-view {
+.dashboard {
 display: flex;
 flex-direction: row;
 justify-content: space-around;
@@ -50,6 +50,21 @@ height: 80vh;
 width:  100vw;
 }
 
+.login {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: center;
+  height: 80vh;
+  width: 100vw;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-self: center;
+}
 
 
 .booking {
@@ -80,4 +95,8 @@ width:  100vw;
   height: 20vh;
   width: 30vw;
   justify-self: flex-start;
+}
+
+.hidden {
+  display: none;
 }
