@@ -86,13 +86,16 @@ function getBookingData(customer) {
     let pic
     sidebar.innerHTML = `<h4>Total Spent: $${customer.totalSpent}</h4>`
     customer.bookings.forEach( booking => {
-    pic = roomImages[Math.floor(Math.random() * roomImages.length)].toString()
-    booking.pic = pic
+    if (!booking.pic) {
+    pic = roomImages[Math.floor(Math.random() * roomImages.length)]
+    booking.pic = pic.toString()
+    }
+ 
     let bookingDate = booking.date.split('/').join('-')
     let today = new Date(currentDate)
+    console.log('current date: ', currentDate)
     let bookingDay = new Date(bookingDate)
     console.log('booking date: ', bookingDate)
-    console.log('current date: ', currentDate)
     if( bookingDay < today) {
     sidebar.innerHTML += `
     <h4 class="title" id="formerBookingTitle">Room ${booking.roomNumber} on ${booking.date}</h4>
@@ -109,23 +112,20 @@ else if(today <= bookingDay) {
     <img src=${booking.pic} class ="bookingPic" alt="upcomingBookingImage" width=100 height = auto >`
 }})
 }
-function getDates() {
- 
-}
-function checkDates() {
 
+function checkDates() {
+   potentialBookings.innerHTML = ``
     let date = calendar.value.split('-')
     let calendarData = date.map((date) => parseInt(date))
-    let modifiedCalendarData = calendarData.map((data, index) => {if (index >=1) return data - 1})
-    let newDate = `${calendarData[0]}/${modifiedCalendarData[1]}/${modifiedCalendarData[2]}`
+    let newDate = `${calendarData[0]}/${calendarData[1]}/${calendarData[2]}`
     console.log('weird calendar thing', newDate)
     console.log('calendar value: ', date) 
     let availabilities = []
     if (date.value === '') {
-        homepage.innerHTML += `<h4>Select a Date</h4>`
+        dashboardView.innerHTML += `<h4>Select a Date</h4>`
     }
     let bookedRooms = bookings.filter((booking) => {
-        if (booking.date.includes(newDate)) {
+        if (booking.date === newDate) {
             return booking
         }
     }).map(booking => booking.roomNumber)
@@ -143,14 +143,18 @@ function checkDates() {
             return room
         }
     })
+    if (roomFilter.length === 0) {
+        dashboardView.innerHTML = `<h4>NO AVAILABILITIES</h4 <p>scheduled maintenance on our water system that day, we are so sorry for the inconvenience!</p>`
+    }
+    else {
     let pic
     roomFilter.forEach((availability) => {
-    pic = roomImages[Math.floor(Math.random() * roomImages.length)]
-    let potentialBooking = document.createElement('div')
-    potentialBooking.classList.add('potential-booking')
-    potentialBooking.setAttribute('id', availability.number.toString())
+    pic = roomImages[Math.floor(Math.random() * roomImages.length)].toString()
+    // let potentialBooking = document.createElement('div')
+    // potentialBooking.classList.add('potential-booking')
+    // potentialBooking.setAttribute('id', availability.number.toString())
     let bidetStatus
-    if (potentialBooking.bidet === false) {
+    if (availability.bidet === false) {
         bidetStatus = "no bidet"
     } else {
         bidetStatus = "has a bidet"
@@ -164,22 +168,15 @@ function checkDates() {
     <img src=${pic} class ="bookingPic" alt="potential-booking-image" width=100 height=auto>
     <button class="book-button" id ="${availability.number}">Book!</button>
  `
-potentialBookings.append(potentialBooking)
-})
-
+// potentialBookings.append(potentialBooking)
+})}
 }
 
 function bookRoom(event) {
 event.preventDefault()
-    let newBooking = { userID: customer.id, date: calendar.value.split('-').join('/'), roomNumber: parseInt(event.target.id) }
-    console.log(newBooking)
-    customer.book(newBooking)
     if (event.target.classList.contains('book-button')) {
         console.log(event.target.id)
-        postRoom(event.target.id)
-    // let newBooking = {userID: customer.id, date: calendar.value.split('-').join('/'), roomNumber: parseInt(event.target.id)}
-    // console.log(newBooking)
-    // customer.book(newBooking)
+    postRoom(event.target.id)
     updatePromises()
     checkDates()
     }
