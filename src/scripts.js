@@ -37,19 +37,37 @@ function getPromises() {
     })
 }
 
+function updatePromises() {
+    Promise.all([fetchData('customers'), fetchData('bookings'), fetchData('rooms')]).then(data => {
+        sidebar.innerHTML = ` `
+        potentialBookings.innerHTML = ` `
+        currentBookings.innerHTML = ` `
+        customers = data[0].customers
+        bookings = data[1].bookings
+        customer.bookings = []
+        customer.getPrevBookings(bookings)
+        rooms = data[2].rooms
+        customer.totalSpent = 0
+        customer.getTotalSpent(rooms)
+        getBookingData(customer)
+        console.log('customer: ', customer)
+    })
+}
+
 
 const calendarView = document.querySelector('.calendar')
 const dashboardView = document.getElementById('dashboard-view')
 let bookingCards = document.querySelectorAll('.booking');
 const currentBooking = document.getElementById('current-booking')
-const totalSpent = document.getElementById('totalSpent')
+let totalSpent = document.getElementById('totalSpent')
 const formerBookings = document.querySelectorAll('.formerBooking')
-const sidebar = document.querySelector('.sidebar')
+let sidebar = document.querySelector('.sidebar')
 const calendar = document.querySelector('.date')
 const roomTypes = document.getElementById('roomTypes')
 const calendarButton = document.getElementById('checkAvailabilities')
 let bookButtons = document.querySelectorAll('.book-button')
-const potentialBookings = document.querySelector('.potential-bookings')
+let potentialBookings = document.querySelector('.potential-bookings')
+let currentBookings = document.querySelector('.currentBookings')
 const body = document.body
 
 window.addEventListener('load', getPromises);
@@ -58,30 +76,59 @@ potentialBookings.addEventListener('click', bookRoom)
 
 
 function getBookingData(customer) {
+    sidebar.innerHTML = ``
+    currentBookings.innerHTML = ``
+    const date = new Date()
+    const dateDay = date.getUTCDate()
+    const dateMonth = date.getUTCMonth()
+    const dateYear = date.getUTCFullYear()
+    const currentDate = dateYear + "-" + dateMonth + "-" + dateDay
     let pic
-    totalSpent.innerHTML = `Total Spent: $${customer.totalSpent}`
+    sidebar.innerHTML = `<h4>Total Spent: $${customer.totalSpent}</h4>`
     customer.bookings.forEach( booking => {
-    pic = roomImages[Math.floor(Math.random() * roomImages.length)]
+    pic = roomImages[Math.floor(Math.random() * roomImages.length)].toString()
+    booking.pic = pic
+    let bookingDate = booking.date.split('/').join('-')
+    let today = new Date(currentDate)
+    let bookingDay = new Date(bookingDate)
+    console.log('booking date: ', bookingDate)
+    console.log('current date: ', currentDate)
+    if( bookingDay < today) {
     sidebar.innerHTML += `
-    <h4 class="title" id="former-booking-title">Room ${booking.roomNumber} on ${booking.date}</h4>
-    <p class="text" id="former-booking-room">${booking.roomBooked.roomType}</p>
-    <p class="text" id="former-booking-cost">$${booking.roomBooked.costPerNight}/night</p>
-    <img src=${pic} class ="bookingPic" alt="former-booking-image" width=100 height=auto>
- `})
+    <h4 class="title" id="formerBookingTitle">Room ${booking.roomNumber} on ${booking.date}</h4>
+    <p class="text" id="formerBookingRoom">${booking.roomBooked.roomType}</p>
+    <p class="text" id="formerBookingCost">$${booking.roomBooked.costPerNight}/night</p>
+    <img src=${booking.pic} class ="bookingPic" alt="formerBookingImage" width=100 height=auto>
+ `}
+else if(today <= bookingDay) {
+  
+    currentBookings.innerHTML +=
+`    <h4 class="title" id="upcomingBookingTitle">Room ${booking.roomNumber} on ${booking.date}</h4>
+    <p class="text" id="upcomingBookingRoom">${booking.roomBooked.roomType}</p>
+    <p class="text" id="upcomingBookingCost">$${booking.roomBooked.costPerNight}/night</p>
+    <img src=${booking.pic} class ="bookingPic" alt="upcomingBookingImage" width=100 height = auto >`
+}})
 }
-
+function getDates() {
+ 
+}
 function checkDates() {
-    let date = calendar.value.split('-').join('/');
+
+    let date = calendar.value.split('-')
+    let calendarData = date.map((date) => parseInt(date))
+    let modifiedCalendarData = calendarData.map((data, index) => {if (index >=1) return data - 1})
+    let newDate = `${calendarData[0]}/${modifiedCalendarData[1]}/${modifiedCalendarData[2]}`
+    console.log('weird calendar thing', newDate)
+    console.log('calendar value: ', date) 
     let availabilities = []
     if (date.value === '') {
         homepage.innerHTML += `<h4>Select a Date</h4>`
     }
     let bookedRooms = bookings.filter((booking) => {
-        if (booking.date.includes(date)) {
+        if (booking.date.includes(newDate)) {
             return booking
         }
     }).map(booking => booking.roomNumber)
-    console.log("booked rooms: ", bookedRooms)
     rooms.filter((room) => {
         if (!bookedRooms.includes(room.number)) {
             availabilities.push(room)
@@ -124,12 +171,19 @@ potentialBookings.append(potentialBooking)
 
 function bookRoom(event) {
 event.preventDefault()
+    let newBooking = { userID: customer.id, date: calendar.value.split('-').join('/'), roomNumber: parseInt(event.target.id) }
+    console.log(newBooking)
+    customer.book(newBooking)
     if (event.target.classList.contains('book-button')) {
         console.log(event.target.id)
         postRoom(event.target.id)
+    // let newBooking = {userID: customer.id, date: calendar.value.split('-').join('/'), roomNumber: parseInt(event.target.id)}
+    // console.log(newBooking)
+    // customer.book(newBooking)
+    updatePromises()
+    checkDates()
     }
 }
-
 function postRoom(id) {
     fetch('http://localhost:3001/api/v1/bookings', {
         method: 'POST',

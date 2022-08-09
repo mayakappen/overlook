@@ -9,14 +9,13 @@ class Customer {
     this.totalSpent = 0
     }
     book(room) {
-    const newRoom = new Room(room)
     const date = new Date()
     const  dateDay = date.getUTCDate()
     const  dateMonth = date.getUTCMonth()
     const dateYear = date.getUTCFullYear()
     const bookingDate = dateYear + "/" + dateMonth + "/" + dateDay
-     newRoom.date = bookingDate
-       this.bookings.push(newRoom)
+     room.dateBooked = bookingDate
+       this.bookings.push(room)
        this.totalSpent += room.costPerNight
     }
     getPrevBookings(bookings){
