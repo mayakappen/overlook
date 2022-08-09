@@ -24,6 +24,11 @@ body {
   width: 20vw;
 }
 
+.currentBookings {
+  height: 90vh;
+  width: 22vw;
+  overflow-y: scroll;
+}
 .calendar {
 display: flex;
 flex-direction: column;
@@ -59,6 +64,11 @@ width:  100vw;
 
 }
 
+.upcomingBooking {
+  height: 5vh;
+  width: 2vw;
+  background-color: red;
+}
 
 
 .bookingPic {
