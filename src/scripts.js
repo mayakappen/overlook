@@ -139,7 +139,7 @@ function getBookingData(customer) {
     <h4 class="title" id="formerBookingTitle" tabindex = "0">Room ${booking.roomNumber} on ${booking.date}</h4>
     <p class="text" id="formerBookingRoom">${booking.roomBooked.roomType}</p>
     <p class="text" id="formerBookingCost">$${booking.roomBooked.costPerNight}/night</p>
-    <img src=${booking.picture} class ="bookingPic" alt="formerBookingImage" width=100 height=auto>
+    <img src=${booking.picture} class ="bookingPic" alt="formerBookingImage" width=100 height=auto alt = "What we consider to be a normal ${booking.roomBooked.roomType} with LOTS of ""character""">
  `}
 else if(today <= bookingDay) {
   
@@ -147,7 +147,7 @@ else if(today <= bookingDay) {
 `    <h4 class="title" id="upcomingBookingTitle" tabindex = "0">Room ${booking.roomNumber} on ${booking.date}</h4>
     <p class="text" id="upcomingBookingRoom">${booking.roomBooked.roomType}</p>
     <p class="text" id="upcomingBookingCost">$${booking.roomBooked.costPerNight}/night</p>
-    <img src=${booking.picture} class ="bookingPic" alt="upcomingBookingImage" width=100 height = auto >`
+    <img src=${booking.picture} class ="bookingPic" width="100" height=auto alt = "What we consider to be a normal ${booking.roomBooked.roomType} with LOTS of ""character""">`
         }
     })
 }
@@ -211,7 +211,7 @@ function checkDates() {
     <p class="text" id="potentialBookingBeds> ${availability.numBeds} ${availability.bedSize} beds</p>
     <p class="text" id="potentialBooking-cost">$${availability.costPerNight}/night</p>
     <p class="text" id="potentialBooking-bidet">${bidetStatus}</p>
-    <img src=${availability.picture} class ="bookingPic" alt="potential-booking-image" width=100 height=auto>
+    <img src=${availability.picture} class ="bookingPic" alt=alt = "What we consider to be a normal ${availability.roomType} with LOTS of ""character""" width=100 height=auto>
     <button class="book-button" id ="${availability.number}">Book!</button>
  `
 // potentialBookings.append(potentialBooking)

@@ -10,7 +10,7 @@ class Customer {
     }
     book(room) {
     const date = new Date()
-    const  dateDay = date.getUTCDate()
+    const  dateDay = date.getUTCDate() + 1
     const  dateMonth = date.getUTCMonth()
     const dateYear = date.getUTCFullYear()
     const bookingDate = dateYear + "/" + dateMonth + "/" + dateDay
