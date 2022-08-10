@@ -25,14 +25,13 @@ function login(event) {
     event.preventDefault()
     let password = passwordField.value
     let username = userField.value
-    console.log(username)
+
     id = username.slice(-2)
-    console.log(password)
     if (password === 'overlook2021' && username + id && id <= 50) {
         loginView.classList.add('hidden')
         dashboardView.classList.remove('hidden')
        
-        console.log(id)
+
         new Promise((resolve, reject) => {
 
             resolve(setTimeout(
@@ -41,7 +40,6 @@ function login(event) {
                     customer.getPrevBookings(bookings)
                     customer.getTotalSpent(rooms)
                     getBookingData(customer)
-                    console.log(customer)
                     return customer
                 }), 100000))
             reject(err => alert(err))
@@ -55,7 +53,6 @@ function getPromises() {
     Promise.all([fetchData('bookings'), fetchData('rooms')]).then(data => {
         bookings = data[0].bookings;
         rooms = data[1].rooms;
-        console.log('customer: ', customer)
     })
 }
 
@@ -72,7 +69,6 @@ function updatePromises() {
         customer.getTotalSpent(rooms)
         getBookingData(customer)
         checkDates()
-        console.log('customer: ', customer)
     })
 }
 
@@ -114,7 +110,6 @@ function getBookingData(customer) {
    booking.picture
    booking.picture = randomPic(pic.picture)
     
-    console.log("pic ", booking.picture)
     let bookingDate = booking.date.split('/').join('-')
     let today = new Date(currentDate)
     let bookingDay = new Date(bookingDate)
@@ -157,7 +152,6 @@ getPromises()
         if (!bookedRooms.includes(room.number)) {
             availabilities.push(room)
         }
-        console.log("available rooms", availabilities)
     })
     roomFilter =  availabilities.filter((room) => {
         if (roomTypes.value === 'any') {
@@ -197,13 +191,12 @@ getPromises()
 function bookRoom(event) {
 event.preventDefault()
     if (event.target.classList.contains('book-button')) {
-        console.log(event.target.id)
      postRoom(event.target.id)
      setTimeout(updatePromises(), 2000)
     }
 }
 function postRoom(id) {
-    console.log(newDate)
+
     fetch('http://localhost:3001/api/v1/bookings', {
         method: 'POST',
         headers: {'Content-type': 'application/json'},
