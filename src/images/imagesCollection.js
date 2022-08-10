@@ -5,19 +5,5 @@ const roomImages = [
     {"Type": "suite", "picture": ["https://user-images.githubusercontent.com/102932448/183271233-50101a92-bf18-4e7f-8a2e-4016661c112c.jpeg", "https://user-images.githubusercontent.com/102932448/183271177-82b4330f-991f-4a1b-9c7d-15db152e3007.jpeg", "https://user-images.githubusercontent.com/102932448/183276835-d62a6b71-a918-4a51-a85a-f76d7d23bdba.png", "https://user-images.githubusercontent.com/102932448/183276968-120a5f0f-1ac0-45d5-a8c5-5ec17f655b3d.png", "https://user-images.githubusercontent.com/102932448/183277083-4a91dc7e-51fe-46ea-87cc-7d70ef486760.jpeg"]}
 ]
 
-const randomImages = [
-    ,
-    ,
-   ,
-    ,
-   ,
-    ,
-    ,
-    ,
-   ,
-    ,
-   
-]
-
 
 module.exports = roomImages
