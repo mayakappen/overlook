@@ -10,12 +10,6 @@ import Booking from './classes/Booking.js'
 import Customer from './classes/Customer.js';
 import Room from './classes/Room.js'
 
-let fetchData = (data => {
-    return fetch(`http://localhost:3001/api/v1/${data}`)
-        .then(rsp => rsp.json())
-        .catch(error => console.log(error))
-});
-
 let customers;
 let bookings;
 let rooms;
@@ -24,7 +18,39 @@ let booking;
 let room;
 let roomFilter;
 let id;
+let newDate
+let fetchData = (data => {
+    return fetch(`http://localhost:3001/api/v1/${data}`)
+        .then(rsp => rsp.json())
+        .catch(error => console.log(error))
+});
 
+function login(event) {
+    event.preventDefault()
+    let password = passwordField.value
+    console.log(password)
+    if (password === 'overlook2021') {
+        loginView.classList.add('hidden')
+        dashboardView.classList.remove('hidden')
+        let username = userField.value
+        console.log(username)
+        id = username.slice(-2)
+        console.log(id)
+        let myPromise = new Promise((resolve, reject) => {
+
+            resolve(setTimeout(
+                fetchData(`customers/${id}`).then(data => {
+                    customer = new Customer(data)
+                    customer.getPrevBookings(bookings)
+                    customer.getTotalSpent(rooms)
+                    getBookingData(customer)
+                    console.log(customer)
+                    return customer
+                }), 100000))
+            reject(err => alert(err))
+        })
+    }
+}
 function getPromises() {
     Promise.all([fetchData('bookings'), fetchData('rooms')]).then(data => {
         bookings = data[0].bookings;
@@ -46,6 +72,7 @@ function updatePromises() {
         customer.totalSpent = 0
         customer.getTotalSpent(rooms)
         getBookingData(customer)
+        checkDates()
         console.log('customer: ', customer)
     })
 }
@@ -75,7 +102,18 @@ loginButton.addEventListener('click', login)
 calendarButton.addEventListener('click', checkDates)
 potentialBookings.addEventListener('click', bookRoom)
 
-
+function randomPic(pics) {
+let randomPic = pics[Math.floor(Math.random() * pics.length)]
+return randomPic
+}
+function getDate() {
+    const date = new Date()
+    const dateDay = date.getUTCDate()
+    const dateMonth = date.getUTCMonth() + 1
+    const dateYear = date.getUTCFullYear()
+    const currentDate = dateYear + "-" + dateMonth + "-" + dateDay
+    return currentDate
+}
 function getBookingData(customer) {
     sidebar.innerHTML = ``
     currentBookings.innerHTML = ``
@@ -87,11 +125,8 @@ function getBookingData(customer) {
     let pic
     sidebar.innerHTML = `<h4>Total Spent: $${customer.totalSpent}</h4>`
     customer.bookings.forEach( booking => {
-    if (!booking.pic) {
-    pic = roomImages[Math.floor(Math.random() * roomImages.length)]
-    booking.pic = pic.toString()
-    }
- 
+    pic = randomPic(roomImages)
+    booking.pic = pic
     let bookingDate = booking.date.split('/').join('-')
     let today = new Date(currentDate)
     console.log('current date: ', currentDate)
@@ -111,14 +146,17 @@ else if(today <= bookingDay) {
     <p class="text" id="upcomingBookingRoom">${booking.roomBooked.roomType}</p>
     <p class="text" id="upcomingBookingCost">$${booking.roomBooked.costPerNight}/night</p>
     <img src=${booking.pic} class ="bookingPic" alt="upcomingBookingImage" width=100 height = auto >`
-}})
+        }
+    })
 }
 
+
 function checkDates() {
+    getPromises()
    potentialBookings.innerHTML = ``
     let date = calendar.value.split('-')
     let calendarData = date.map((date) => parseInt(date))
-    let newDate = `${calendarData[0]}/${calendarData[1]}/${calendarData[2]}`
+    newDate = `${calendarData[0]}/${calendarData[1]}/${calendarData[2]}`
     console.log('weird calendar thing', newDate)
     console.log('calendar value: ', date) 
     let availabilities = []
@@ -150,7 +188,10 @@ function checkDates() {
     else {
     let pic
     roomFilter.forEach((availability) => {
-    pic = roomImages[Math.floor(Math.random() * roomImages.length)].toString()
+    if (!availability.pic) {
+    pic = randomPic(roomImages)
+    availability.pic = pic
+    }
     // let potentialBooking = document.createElement('div')
     // potentialBooking.classList.add('potential-booking')
     // potentialBooking.setAttribute('id', availability.number.toString())
@@ -161,12 +202,12 @@ function checkDates() {
         bidetStatus = "has a bidet"
     }
     potentialBookings.innerHTML += `
-    <h4 class="title" id="potentialBookingTitle" tabindex = "0">Room ${availability.number} on ${date}</h4>
+    <h4 class="title" id="potentialBookingTitle" tabindex = "0">Room ${availability.number} on ${newDate}</h4>
     <p class="text" id="potentialBookingRoom">${availability.roomType}</p>
     <p class="text" id="potentialBookingBeds> ${availability.numBeds} ${availability.bedSize} beds</p>
     <p class="text" id="potentialBooking-cost">$${availability.costPerNight}/night</p>
     <p class="text" id="potentialBooking-bidet">${bidetStatus}</p>
-    <img src=${pic} class ="bookingPic" alt="potential-booking-image" width=100 height=auto>
+    <img src=${availability.pic} class ="bookingPic" alt="potential-booking-image" width=100 height=auto>
     <button class="book-button" id ="${availability.number}">Book!</button>
  `
 // potentialBookings.append(potentialBooking)
@@ -177,50 +218,21 @@ function bookRoom(event) {
 event.preventDefault()
     if (event.target.classList.contains('book-button')) {
         console.log(event.target.id)
-    postRoom(event.target.id)
-    updatePromises()
-    checkDates()
+     postRoom(event.target.id)
+     setTimeout(updatePromises(), 2000)
     }
 }
 function postRoom(id) {
+    console.log(newDate)
     fetch('http://localhost:3001/api/v1/bookings', {
         method: 'POST',
         headers: {'Content-type': 'application/json'},
-        body: JSON.stringify({userID: customer.id, date: calendar.value.split('-').join('/'), roomNumber: parseInt(id)})
+        body: JSON.stringify({userID: customer.id, date: newDate, roomNumber: parseInt(id)})
     })
         .then(resp => resp.json())
         .catch(error => console.log(error))
 }
-let myPromise
-function login(event) {
-    event.preventDefault()
-    let password = passwordField.value
-    console.log(password)
-    if (password === 'overlook2021') {
-    loginView.classList.add('hidden')
-    dashboardView.classList.remove('hidden')
-    let username = userField.value
-    console.log(username)
-    id = username.slice(-2)
-    console.log(id)
-    myPromise = new Promise((resolve, reject) => {
-            
-            resolve( setTimeout(
-                fetchData(`customers/${id}`).then(data => {
-                    customer = new Customer(data)
-                    customer.getPrevBookings(bookings)
-                    customer.getTotalSpent(rooms)
-                    getBookingData(customer)
-                    console.log(customer)
-                    return customer
-                }), 100000))
-            reject(err => alert(err))
-            
-    })
 
-}
-
-}
 
 
 
