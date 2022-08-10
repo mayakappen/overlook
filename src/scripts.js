@@ -104,7 +104,7 @@ potentialBookings.addEventListener('click', bookRoom)
 
 function randomPic(pics) {
 let randomPic = pics[Math.floor(Math.random() * pics.length)]
-return randomPic
+return randomPic.toString()
 }
 function getDate() {
     const date = new Date()
@@ -122,22 +122,23 @@ function getBookingData(customer) {
     const dateMonth = date.getUTCMonth() + 1
     const dateYear = date.getUTCFullYear()
     const currentDate = dateYear + "-" + dateMonth + "-" + dateDay
-    let pic
     sidebar.innerHTML = `<h4>Total Spent: $${customer.totalSpent}</h4>`
+    let pic
     customer.bookings.forEach( booking => {
-    pic = randomPic(roomImages)
-    booking.pic = pic
+    pic = roomImages.find(image => image.Type === booking.roomBooked.roomType)
+   booking.picture
+   booking.picture = pic.picture
+   
+    console.log("pic ", booking.picture)
     let bookingDate = booking.date.split('/').join('-')
     let today = new Date(currentDate)
-    console.log('current date: ', currentDate)
     let bookingDay = new Date(bookingDate)
-    console.log('booking date: ', bookingDate)
     if( bookingDay < today) {
     sidebar.innerHTML += `
     <h4 class="title" id="formerBookingTitle" tabindex = "0">Room ${booking.roomNumber} on ${booking.date}</h4>
     <p class="text" id="formerBookingRoom">${booking.roomBooked.roomType}</p>
     <p class="text" id="formerBookingCost">$${booking.roomBooked.costPerNight}/night</p>
-    <img src=${booking.pic} class ="bookingPic" alt="formerBookingImage" width=100 height=auto>
+    <img src=${booking.picture} class ="bookingPic" alt="formerBookingImage" width=100 height=auto>
  `}
 else if(today <= bookingDay) {
   
@@ -145,7 +146,7 @@ else if(today <= bookingDay) {
 `    <h4 class="title" id="upcomingBookingTitle" tabindex = "0">Room ${booking.roomNumber} on ${booking.date}</h4>
     <p class="text" id="upcomingBookingRoom">${booking.roomBooked.roomType}</p>
     <p class="text" id="upcomingBookingCost">$${booking.roomBooked.costPerNight}/night</p>
-    <img src=${booking.pic} class ="bookingPic" alt="upcomingBookingImage" width=100 height = auto >`
+    <img src=${booking.picture} class ="bookingPic" alt="upcomingBookingImage" width=100 height = auto >`
         }
     })
 }
@@ -188,10 +189,11 @@ function checkDates() {
     else {
     let pic
     roomFilter.forEach((availability) => {
-    if (!availability.pic) {
-    pic = randomPic(roomImages)
-    availability.pic = pic
-    }
+    pic = roomImages.find((image) => image.Type === availability.roomType)
+    console.log(pic)
+    availability.picture = pic.picture
+    console.log(availability.picture)
+    
     // let potentialBooking = document.createElement('div')
     // potentialBooking.classList.add('potential-booking')
     // potentialBooking.setAttribute('id', availability.number.toString())
@@ -207,7 +209,7 @@ function checkDates() {
     <p class="text" id="potentialBookingBeds> ${availability.numBeds} ${availability.bedSize} beds</p>
     <p class="text" id="potentialBooking-cost">$${availability.costPerNight}/night</p>
     <p class="text" id="potentialBooking-bidet">${bidetStatus}</p>
-    <img src=${availability.pic} class ="bookingPic" alt="potential-booking-image" width=100 height=auto>
+    <img src=${availability.picture} class ="bookingPic" alt="potential-booking-image" width=100 height=auto>
     <button class="book-button" id ="${availability.number}">Book!</button>
  `
 // potentialBookings.append(potentialBooking)
