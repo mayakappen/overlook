@@ -6,16 +6,12 @@ import './css/styles.css';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import roomImages from './images/imagesCollection.js'
-import Booking from './classes/Booking.js'
 import Customer from './classes/Customer.js';
-import Room from './classes/Room.js'
 
-let customers;
+
 let bookings;
 let rooms;
 let customer;
-let booking;
-let room;
 let roomFilter;
 let id;
 let newDate
@@ -28,15 +24,16 @@ let fetchData = (data => {
 function login(event) {
     event.preventDefault()
     let password = passwordField.value
+    let username = userField.value
+    console.log(username)
+    id = username.slice(-2)
     console.log(password)
-    if (password === 'overlook2021') {
+    if (password === 'overlook2021' && username + id && id <= 50) {
         loginView.classList.add('hidden')
         dashboardView.classList.remove('hidden')
-        let username = userField.value
-        console.log(username)
-        id = username.slice(-2)
+       
         console.log(id)
-        let myPromise = new Promise((resolve, reject) => {
+        new Promise((resolve, reject) => {
 
             resolve(setTimeout(
                 fetchData(`customers/${id}`).then(data => {
@@ -49,6 +46,9 @@ function login(event) {
                 }), 100000))
             reject(err => alert(err))
         })
+    }
+    else {
+        return alert('invalid username or password')
     }
 }
 function getPromises() {
@@ -64,7 +64,6 @@ function updatePromises() {
         sidebar.innerHTML = ` `
         potentialBookings.innerHTML = ` `
         currentBookings.innerHTML = ` `
-        customers = data[0].customers
         bookings = data[1].bookings
         customer.bookings = []
         customer.getPrevBookings(bookings)
@@ -77,25 +76,17 @@ function updatePromises() {
     })
 }
 
-
-const calendarView = document.querySelector('.calendar')
 const dashboardView = document.querySelector('.dashboard')
-let bookingCards = document.querySelectorAll('.booking');
-const currentBooking = document.getElementById('current-booking')
-let totalSpent = document.getElementById('totalSpent')
-const formerBookings = document.querySelectorAll('.formerBooking')
 let sidebar = document.querySelector('.sidebar')
 const calendar = document.querySelector('.date')
 const roomTypes = document.getElementById('roomTypes')
 const calendarButton = document.getElementById('checkAvailabilities')
-let bookButtons = document.querySelectorAll('.book-button')
 let potentialBookings = document.querySelector('.potential-bookings')
 let currentBookings = document.querySelector('.currentBookings')
 let userField = document.getElementById('userName')
 let passwordField = document.querySelector('.password')
 const loginButton = document.getElementById('loginButton')
 let loginView = document.querySelector('.login')
-const body = document.body
 
 window.addEventListener('load', getPromises);
 loginButton.addEventListener('click', login)
@@ -106,14 +97,7 @@ function randomPic(pics) {
 let randomPic = pics[Math.floor(Math.random() * pics.length)]
 return randomPic.toString()
 }
-function getDate() {
-    const date = new Date()
-    const dateDay = date.getUTCDate()
-    const dateMonth = date.getUTCMonth() + 1
-    const dateYear = date.getUTCFullYear()
-    const currentDate = dateYear + "-" + dateMonth + "-" + dateDay
-    return currentDate
-}
+
 function getBookingData(customer) {
     sidebar.innerHTML = ``
     currentBookings.innerHTML = ``
@@ -125,11 +109,11 @@ function getBookingData(customer) {
     sidebar.innerHTML = `<h4>Total Spent: $${customer.totalSpent}</h4>`
     let pic
     customer.bookings.forEach( booking => {
-    if (!booking.picture) {
+    
     pic = roomImages.find(image => image.Type === booking.roomBooked.roomType)
    booking.picture
    booking.picture = randomPic(pic.picture)
-    }
+    
     console.log("pic ", booking.picture)
     let bookingDate = booking.date.split('/').join('-')
     let today = new Date(currentDate)
@@ -139,7 +123,7 @@ function getBookingData(customer) {
     <h4 class="title" id="formerBookingTitle" tabindex = "0">Room ${booking.roomNumber} on ${booking.date}</h4>
     <p class="text" id="formerBookingRoom">${booking.roomBooked.roomType}</p>
     <p class="text" id="formerBookingCost">$${booking.roomBooked.costPerNight}/night</p>
-    <img src=${booking.picture} class ="bookingPic" alt="formerBookingImage" width=100 height=auto alt = "What we consider to be a normal ${booking.roomBooked.roomType} with LOTS of ""character""">
+    <img src=${booking.picture} class ="bookingPic" width=100 height=auto alt = "What we consider to be a normal ${booking.roomBooked.roomType} with LOTS of ""character""">
  `}
 else if(today <= bookingDay) {
   
@@ -154,13 +138,11 @@ else if(today <= bookingDay) {
 
 
 function checkDates() {
-    getPromises()
+getPromises()
    potentialBookings.innerHTML = ``
     let date = calendar.value.split('-')
     let calendarData = date.map((date) => parseInt(date))
     newDate = `${calendarData[0]}/${calendarData[1]}/${calendarData[2]}`
-    console.log('weird calendar thing', newDate)
-    console.log('calendar value: ', date) 
     let availabilities = []
     let pic
     if (date.value === '') {
@@ -186,19 +168,14 @@ function checkDates() {
         }
     })
     if (roomFilter.length === 0) {
-        dashboardView.innerHTML = `<h4>NO AVAILABILITIES</h4 <p>scheduled maintenance on our water system that day, we are so sorry for the inconvenience!</p>`
+       alert('NO AVAILABILITIES, we are so sorry for the inconvenience!')
+       getPromises()
     }
     else {
     roomFilter.forEach((availability) => {
     pic = roomImages.find((image) => image.Type === availability.roomType)
     availability.picture 
     availability.picture =randomPic(pic.picture)
-   
-    console.log(availability.picture)
-    
-    // let potentialBooking = document.createElement('div')
-    // potentialBooking.classList.add('potential-booking')
-    // potentialBooking.setAttribute('id', availability.number.toString())
     let bidetStatus
     if (availability.bidet === false) {
         bidetStatus = "no bidet"
@@ -214,7 +191,6 @@ function checkDates() {
     <img src=${availability.picture} class ="bookingPic" alt=alt = "What we consider to be a normal ${availability.roomType} with LOTS of ""character""" width=100 height=auto>
     <button class="book-button" id ="${availability.number}">Book!</button>
  `
-// potentialBookings.append(potentialBooking)
 })}
 }
 
