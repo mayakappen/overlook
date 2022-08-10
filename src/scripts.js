@@ -125,10 +125,11 @@ function getBookingData(customer) {
     sidebar.innerHTML = `<h4>Total Spent: $${customer.totalSpent}</h4>`
     let pic
     customer.bookings.forEach( booking => {
+    if (!booking.picture) {
     pic = roomImages.find(image => image.Type === booking.roomBooked.roomType)
    booking.picture
-   booking.picture = pic.picture
-   
+   booking.picture = randomPic(pic.picture)
+    }
     console.log("pic ", booking.picture)
     let bookingDate = booking.date.split('/').join('-')
     let today = new Date(currentDate)
@@ -161,6 +162,7 @@ function checkDates() {
     console.log('weird calendar thing', newDate)
     console.log('calendar value: ', date) 
     let availabilities = []
+    let pic
     if (date.value === '') {
         dashboardView.innerHTML += `<h4>Select a Date</h4>`
     }
@@ -187,11 +189,11 @@ function checkDates() {
         dashboardView.innerHTML = `<h4>NO AVAILABILITIES</h4 <p>scheduled maintenance on our water system that day, we are so sorry for the inconvenience!</p>`
     }
     else {
-    let pic
     roomFilter.forEach((availability) => {
     pic = roomImages.find((image) => image.Type === availability.roomType)
-    console.log(pic)
-    availability.picture = pic.picture
+    availability.picture 
+    availability.picture =randomPic(pic.picture)
+   
     console.log(availability.picture)
     
     // let potentialBooking = document.createElement('div')
