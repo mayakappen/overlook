@@ -15,11 +15,11 @@ let customer;
 let roomFilter;
 let id;
 let newDate
-let fetchData = (data => {
+let fetchData = (data) => {
     return fetch(`http://localhost:3001/api/v1/${data}`)
         .then(rsp => rsp.json())
         .catch(error => console.log(error))
-});
+};
 
 function login(event) {
     event.preventDefault()
@@ -41,7 +41,7 @@ function login(event) {
                     customer.getTotalSpent(rooms)
                     getBookingData(customer)
                     return customer
-                }), 100000))
+                }), 1000))
             reject(err => alert(err))
         })
     }
