@@ -6,16 +6,12 @@ import './css/styles.css';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import roomImages from './images/imagesCollection.js'
-import Booking from './classes/Booking.js'
 import Customer from './classes/Customer.js';
-import Room from './classes/Room.js'
 
-let customers;
+
 let bookings;
 let rooms;
 let customer;
-let booking;
-let room;
 let roomFilter;
 let id;
 let newDate
@@ -68,7 +64,6 @@ function updatePromises() {
         sidebar.innerHTML = ` `
         potentialBookings.innerHTML = ` `
         currentBookings.innerHTML = ` `
-        customers = data[0].customers
         bookings = data[1].bookings
         customer.bookings = []
         customer.getPrevBookings(bookings)
@@ -96,7 +91,6 @@ let loginView = document.querySelector('.login')
 window.addEventListener('load', getPromises);
 loginButton.addEventListener('click', login)
 calendarButton.addEventListener('click', checkDates)
-
 potentialBookings.addEventListener('click', bookRoom)
 
 function randomPic(pics) {
