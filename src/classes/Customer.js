@@ -3,7 +3,6 @@ const Room = require("./Room")
 class Customer {
     constructor(customer) {
     this.id = customer.id
-    console.log('id: ', customer.id)
     this.name = customer.name
     this.bookings = []
     this.totalSpent = 0
